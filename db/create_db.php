@@ -1,0 +1,59 @@
+<?php
+  include_once "credentials.php";
+
+  //Cria conexão
+  $conn = mysqli_connect($host, $user, $password);
+
+  //Checa a conexão
+  if(!$conn) {
+    die("A conexão com o banco de dados falhou: " . mysqli_connect_error());
+  }
+
+  //Cria a base de dados
+  $query = "CREATE DATABASE $dbname";
+  if(mysqli_query($conn, $query)){
+    echo "Base de dados criada com sucesso.<br>";
+  } else {
+    echo "Erro ao criar base de dados: " . mysqli_error($conn) . "<br>";
+  }
+
+  //Seleciona a base de dados
+  $query = "USE $dbname";
+  if(mysqli_query($conn, $query)){
+    echo "Base de dados selecionada com sucesso.<br>";
+  } else {
+    echo "Erro ao selecionar base de dados: " . mysqli_error($conn) . "<br>";
+  }
+
+  //Cria a tabela de usuários
+  $query = "CREATE TABLE usuarios(
+      id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      nome VARCHAR(20) NOT NULL,
+      sobrenome VARCHAR(30) NOT NULL,
+      email VARCHAR(60) NOT NULL,
+      senha VARCHAR(40) NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+  )";
+  if(mysqli_query($conn, $query)){
+    echo "Tabela de usuários criada com sucesso.<br>";
+  } else {
+    echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
+  }
+
+  //Cria a tabela de reviews
+  $query = "CREATE TABLE reviews(
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        id_user INT(6) NOT NULL,
+        nome_bar VARCHAR(50) NOT NULL,
+        localizacao VARCHAR(60) NOT NULL,
+        nota INT(5) NOT NULL,
+        review VARCHAR(500),
+        created_at TIMESTAMP
+    )";
+  if(mysqli_query($conn, $query)){
+    echo "Tabela de reviews criada com sucesso.<br>";
+  } else {
+    echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
+  }
+
+  mysqli_close($conn);
