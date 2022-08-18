@@ -84,10 +84,10 @@ require_once "head.php";
 	</label>
 
 	  <?php if ($erro): ?>
-        <span class="insucesso"><?= $erro_msg ?></span>
+            <span class="insucesso"><?= $erro_msg ?></span>
 	  <?php endif; ?>
 
-	<button type="submit" class="btn btn-verde btn-hover">LOGAR</button>
+	<button type="submit" class="btn btn-verde btn-scale">LOGAR</button>
   </form>
   <p class="copy">&copy GLUP - 2022</p>
 </main>

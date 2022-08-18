@@ -21,6 +21,9 @@ body {
   background-color: var(--branco);
   color: var(--preto);
 }
+.pt-pagina {
+  padding-top: 4.8rem;
+}
 .header-container {
   width: 100%;
   height: fit-content;
@@ -33,6 +36,9 @@ body {
   z-index: 10;
   position: fixed;
   top: 0;
+}
+.header-container i {
+  margin-right: .25rem;
 }
 .sombra {
   box-shadow: 0 6px 20px #1D31543A;
@@ -55,7 +61,7 @@ body {
   text-decoration: none;
   transition: transform 300ms ease;
 }
-.btn-hover:hover {
+.btn-scale:hover {
   transform: scale(1.05);
 }
 .btn-verde {
@@ -67,6 +73,11 @@ body {
   font-weight: 700;
   background-color: var(--roxo);
   color: var(--branco);
+}
+.btn-nova-review {
+  border: 2px solid var(--roxo);
+  color: var(--roxo);
+  padding: .4rem .8rem;
 }
 
 /* Página principal ------------------------- */
@@ -195,4 +206,33 @@ span {
   border: none;
   display: flex;
   gap: 1rem;
+}
+
+/* Página novo review -------------- */
+.pagina-novo-review {
+  width: 100%;
+  min-height: calc(100vh - 4.8rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.form-review {
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.estrelas i {
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+.estrela-marcada {
+  color: #ecb901;
+}
+.required {
+  color: red;
+}
+.insucesso .btn-container {
+  margin-top: 1rem;
 }

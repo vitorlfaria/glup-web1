@@ -55,9 +55,9 @@
             $query = "INSERT INTO usuarios (nome, sobrenome, login, email, senha)
                 VALUES ('$nome', '$sobrenome', '$login', '$email', '$senha')";
             if(mysqli_query($conn, $query)){
-              $sucesso = "Usuário criado com sucesso!<br>Você será redirecionado para fazer login em 3 segundos.";
+              $sucesso = "Usuário criado com sucesso!<br>Você será redirecionado para fazer login em 5 segundos.";
               disconnect_db($conn);
-              header("refresh:3; url=login.php");
+              header("refresh:5; url=login.php");
               exit();
             } else {
               $insucesso = "Erro ao registrar usuário, tente novamente mais tarde.";
@@ -161,7 +161,7 @@
         <span class="insucesso"><?= $insucesso ?></span>
       <?php endif; ?>
 
-      <button type="submit" class="btn btn-verde btn-hover">REGISTRAR</button>
+      <button type="submit" class="btn btn-verde btn-scale">REGISTRAR</button>
   </form>
     <p class="copy">&copy GLUP - 2022</p>
 </main>
