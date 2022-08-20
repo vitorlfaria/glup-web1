@@ -27,7 +27,7 @@
 
   //Cria a tabela de usuários
   $query = "CREATE TABLE usuarios(
-      id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      id_usuario INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       nome VARCHAR(20) NOT NULL,
       sobrenome VARCHAR(30) NOT NULL,
       email VARCHAR(60) NOT NULL,
@@ -40,18 +40,37 @@
     echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
   }
 
-  //Cria a tabela de reviews
-  $query = "CREATE TABLE reviews(
-        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        id_user INT(6) NOT NULL,
-        nome_bar VARCHAR(50) NOT NULL,
-        localizacao VARCHAR(60) NOT NULL,
-        nota INT(5) NOT NULL,
-        review VARCHAR(500),
-        created_at TIMESTAMP
-    )";
+  //Cria a tabela de bares
+  $query = "CREATE TABLE bares(
+        id_bar INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY ,
+        nome_bar INT(5) NOT NULL,
+        local_bar VARCHAR(50) NOT NULL,
+        descricao_bar VARCHAR(200),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME,
+        deleted_at DATETIME
+    );";
   if(mysqli_query($conn, $query)){
-    echo "Tabela de reviews criada com sucesso.<br>";
+    echo "Tabela de bares criada com sucesso.<br>";
+  } else {
+    echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
+  }
+
+  //Cria a tabela de avaliações
+  $query = "CREATE TABLE avaliacoes(
+        id_avaliacao INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        id_usuario INT(6) UNSIGNED NOT NULL,
+        id_bar INT(6) UNSIGNED NOT NULL,
+        nota INT(5) NOT NULL,
+        avaliacao VARCHAR(500),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME,
+        deleted_at DATETIME,
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+        FOREIGN KEY (id_bar) REFERENCES bares(id_bar)
+    );";
+  if(mysqli_query($conn, $query)){
+    echo "Tabela de avaliações criada com sucesso.<br>";
   } else {
     echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
   }

@@ -106,7 +106,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #0000005E;
+  background-color: #7700D45E;
   backdrop-filter: blur(3px);
 }
 .banner h1 {
@@ -117,7 +117,7 @@ span {
 }
 .banner h1, .banner p {
   z-index: 1;
-  text-shadow: 0 4px 3px #000000, 0 5px 7px #000000;
+  text-shadow: 0 4px 8px #000000;
 }
 /* Mais populares ----------------- */
 .mais-populares {
@@ -133,6 +133,33 @@ span {
   background-color: var(--preto);
   border-radius: 5rem;
   border: none;
+}
+.cards-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+.card-popular {
+  width: 20rem;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 1rem #24043D3d;
+}
+.card-popular .foto {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* Página de registro e login --------------- */
