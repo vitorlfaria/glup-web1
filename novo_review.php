@@ -4,28 +4,19 @@
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $conn = connect_db();
-      if(empty($_POST['nome_bar'])){
-          $erro_nome_bar = 'O nome do bar é obrigatório';
-      } else {
-          $nome_bar = mysqli_real_escape_string($conn, $_POST['nome_bar']);
-      }
-      if(empty($_POST['local'])){
-          $erro_nome_bar = 'A localização do bar é obrigatória';
-      } else {
-          $local = mysqli_real_escape_string($conn, $_POST['local']);
-      }
       if(!empty($_POST['review'])) {
           $review = mysqli_real_escape_string($conn, $_POST['review']);
       }
+      $id_bar = intval($_POST['id_bar']);
       $nota = intval($_POST['nota']);
 
       if(!isset($editar)){
           $editar = false;
       }
-      if(!empty($nome_bar) && !empty($local) && !empty($nota)) {
-          $query = "SELECT * FROM reviews
-                    WHERE id_user = '$user_id'
-                    AND nome_bar = '$nome_bar';"
+      if(!empty($id_bar) && !empty($nota)) {
+          $query = "SELECT * FROM avaliacoes
+                    WHERE id_usuario = '$user_id'
+                    AND id_bar = '$id_bar';"
           ;
           $result = mysqli_query($conn, $query);
           if(mysqli_num_rows($result) > 0) {
@@ -41,13 +32,13 @@
                   $review_antiga = mysqli_fetch_assoc($result);
                   $review_id = $review_antiga['id'];
                   if (!empty($review)){
-                      $query = "UPDATE reviews
-                                SET nota = '$nota', review = '$review'
-                                WHERE id = '$review_id'";
+                      $query = "UPDATE avaliacoes
+                                SET nota = '$nota', avaliacao = '$review'
+                                WHERE id_avaliacao = '$review_id'";
                   } else {
-                      $query = "UPDATE reviews
+                      $query = "UPDATE avaliacoes
                                 SET nota = '$nota'
-                                WHERE id = '$review_id'";
+                                WHERE id_avaliacao = '$review_id'";
                   }
                   if(mysqli_query($conn, $query)){
                       $sucesso = "Avaliação alterada com sucesso!<br> Deseja registrar mais uma avaliação?";
@@ -56,11 +47,11 @@
               }
           } else {
               if (!empty($review)){
-                  $query = "INSERT INTO reviews (id_user, nome_bar, localizacao, nota, review)
-                            VALUES ('$user_id', '$nome_bar', '$local', '$nota', '$review')";
+                  $query = "INSERT INTO avaliacoes (id_usuario, id_bar, nota, avaliacao)
+                            VALUES ('$user_id', '$id_bar', '$nota', '$review')";
               } else {
-                  $query = "INSERT INTO reviews (id_user, nome_bar, localizacao, nota)
-                            VALUES ('$user_id', '$nome_bar', '$local', '$nota')";
+                  $query = "INSERT INTO avaliacoes (id_usuario, id_bar, nota)
+                            VALUES ('$user_id', '$id_bar', '$nota')";
               }
               if(mysqli_query($conn, $query)){
                   $sucesso = "Avaliação registrada com sucesso!<br> Deseja registrar mais uma avaliação?";
@@ -69,6 +60,10 @@
           }
       }
     }
+    $conn = connect_db();
+    $query = "SELECT id_bar, nome_bar FROM bares";
+    $bares = mysqli_query($conn, $query);
+
     require_once "head.php";
     require_once "header.php";
 ?>
@@ -79,31 +74,21 @@
     <?php else: ?>
         <main class="pagina-novo-review pt-pagina">
             <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form-review">
-                <label for="nome_bar" class="<?php if (!empty($erro_nome_bar)) {echo 'tem-erro';} ?>">
-                    Nome do bar/pub: <span class="required">*</span>
-                    <input type="text"
-                           name="nome_bar"
-                           placeholder="Nome"
-                           class="input"
-                           value="<?php if(isset($nome_bar)) echo $nome_bar?>"
-                           required
-                    >
+                <label for="id_bar" class="<?php if (!empty($erro_nome_bar)) {echo 'tem-erro';} ?>">
+                    Selecione um bar/pub: <span class="required">*</span>
+
+                    <select name="id_bar" class="input">
+                        <?php if(mysqli_num_rows($bares)): ?>
+                            <?php while ($bar = mysqli_fetch_assoc($bares)): ?>
+                                <option value="<?= $bar['id_bar'] ?>"><?= $bar['nome_bar'] ?></option>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <option>Nenhum bar cadastrado</option>
+                        <?php endif; ?>
+                    </select>
+
                     <?php if (!empty($erro_nome_bar)): ?>
                         <span class="erro-form"><?= $erro_nome_bar ?></span>
-                    <?php endif; ?>
-                </label>
-
-                <label for="local" class="<?php if (!empty($erro_local)) {echo 'tem-erro';} ?>">
-                    Localização: <span class="required">*</span>
-                    <input type="text"
-                           name="local"
-                           placeholder="Ex: Centro/Curitiba"
-                           class="input"
-                           value="<?php if(isset($local)) echo $local?>"
-                           required
-                    >
-                    <?php if (!empty($erro_local)): ?>
-                        <span class="erro-form"><?= $erro_local ?></span>
                     <?php endif; ?>
                 </label>
 

@@ -43,7 +43,7 @@
   //Cria a tabela de bares
   $query = "CREATE TABLE bares(
         id_bar INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY ,
-        nome_bar INT(5) NOT NULL,
+        nome_bar VARCHAR(30) NOT NULL,
         local_bar VARCHAR(50) NOT NULL,
         descricao_bar VARCHAR(200),
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -53,8 +53,24 @@
   if(mysqli_query($conn, $query)){
     echo "Tabela de bares criada com sucesso.<br>";
   } else {
-    echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
+    echo "Erro ao criar tabela de bares: " . mysqli_error($conn) . "<br>";
   }
+
+    //Insere alguns bares iniciais na tabela bares
+    $query = "INSERT INTO bares (nome_bar, local_bar)
+        VALUES ('Natividade', 'Jardim das Américas - Curitiba'),
+               ('Bar do Pedrão', 'Jardim das Américas - Curitiba'),
+               ('Casa Verde', 'Jardim das Américas - Curitiba'),
+               ('Bar O.I.D.E', 'Centro - Curitiba'),
+               ('Garden', 'Largo da Ordem - Curitiba'),
+               ('Zodiac', 'Largo da Ordem - Curitiba'),
+               ('Quintal do Monge', 'Largo da Ordem - Curitiba')
+    ";
+    if(mysqli_query($conn, $query)){
+        echo "Bares iniciais cadastrados com sucesso.<br>";
+    } else {
+        echo "Erro ao cadastrar bares iniciais: " . mysqli_error($conn) . "<br>";
+    }
 
   //Cria a tabela de avaliações
   $query = "CREATE TABLE avaliacoes(
@@ -72,7 +88,7 @@
   if(mysqli_query($conn, $query)){
     echo "Tabela de avaliações criada com sucesso.<br>";
   } else {
-    echo "Erro ao criar tabela de usuários: " . mysqli_error($conn) . "<br>";
+    echo "Erro ao criar tabela de avaliações: " . mysqli_error($conn) . "<br>";
   }
 
   mysqli_close($conn);

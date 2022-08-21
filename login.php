@@ -24,7 +24,7 @@
           $senha = mysqli_real_escape_string($conn, $senha);
           $senha = md5($senha);
 
-          $query = "SELECT id, nome, login, senha FROM usuarios WHERE login = '$login'";
+          $query = "SELECT id_usuario, nome, login, senha FROM usuarios WHERE login = '$login'";
           $result = mysqli_query($conn, $query);
           if(mysqli_num_rows($result) == 0 ){
             $erro_msg = "Usuário ou senha incorreto.";
@@ -37,7 +37,7 @@
 	              $erro = true;
               } else {
                   session_start();
-                  $_SESSION["user_id"] = $user['id'];
+                  $_SESSION["user_id"] = $user['id_usuario'];
                   $_SESSION["user_nome"] = $user['nome'];
                   $_SESSION["user_login"] = $user['login'];
 
