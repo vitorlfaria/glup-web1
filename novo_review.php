@@ -14,11 +14,14 @@
           $editar = false;
       }
       if(!empty($id_bar) && !empty($nota)) {
+          //Checa se o usuário já fez uma avaliação para o bar selecionado
           $query = "SELECT * FROM avaliacoes
                     WHERE id_usuario = '$user_id'
                     AND id_bar = '$id_bar';"
           ;
           $result = mysqli_query($conn, $query);
+
+          //Se sim, pergunta se quer atualizar a avaliação
           if(mysqli_num_rows($result) > 0) {
               if($_POST['alterar_review'] === 'sim') {
                   $alterar_review = true;
@@ -28,6 +31,8 @@
                   $alterar_review = false;
                   $review_repetido = true;
               }
+
+              //Se o usuário escolher que quer atualizar, atualiza a review
               if($alterar_review) {
                   $review_antiga = mysqli_fetch_assoc($result);
                   $review_id = $review_antiga['id'];
@@ -46,6 +51,7 @@
                   }
               }
           } else {
+              //Se o usuário ainda não avaliou o bar, cria uma nova avaliação
               if (!empty($review)){
                   $query = "INSERT INTO avaliacoes (id_usuario, id_bar, nota, avaliacao)
                             VALUES ('$user_id', '$id_bar', '$nota', '$review')";
@@ -55,6 +61,21 @@
               }
               if(mysqli_query($conn, $query)){
                   $sucesso = "Avaliação registrada com sucesso!<br> Deseja registrar mais uma avaliação?";
+
+                  // Atualiza a nota do bar com a média das reviews que o bar tem
+                  $query = "SELECT AVG(nota) FROM avaliacoes WHERE id_bar = '$id_bar'";
+                  $result = mysqli_query($conn, $query);
+                  if(mysqli_num_rows($result) > 0) {
+                      $media = mysqli_fetch_assoc($result);
+                      $nota = $media['AVG(nota)'];
+
+                      $query = "UPDATE bares
+                            SET nota_bar = '$nota'
+                            WHERE id_bar = '$id_bar'"
+                      ;
+                      mysqli_query($conn, $query);
+                  }
+
                   disconnect_db($conn);
               }
           }

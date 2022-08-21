@@ -2,9 +2,9 @@
     require_once "db/db_functions.php";
 
     $conn = connect_db();
-    $query = "SELECT DISTINCT nome_bar, id, localizacao, nota FROM reviews
-            ORDER BY nota DESC
-            LIMIT 3";
+    $query = "SELECT id_bar, nome_bar, local_bar, nota_bar FROM bares
+              ORDER BY nota_bar DESC
+              LIMIT 3";
     $reviews = mysqli_query($conn, $query);
     $i = 0;
 ?>
@@ -17,22 +17,21 @@
     <?php if(mysqli_num_rows($reviews) > 0): ?>
         <div class="cards-container">
             <?php while ($review = mysqli_fetch_assoc($reviews)): ?>
-                <?php
-                    $notas[$i] = $review['nota'];
-                    $i++
-                ?>
                 <div class="card-popular">
                     <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2029&q=80"
                          alt="foto bar" class="foto">
                     <h3 class="nome"><?= $review['nome_bar'] ?></h3>
-                    <p class="local"><?= $review['localizacao'] ?></p>
-                    <input type="hidden" class="nota_bar" value="<?= $review['nota'] ?>">
+                    <p class="local"><?= $review['local_bar'] ?></p>
                     <div class="estrelas">
-                        <i onclick="selecionarEstrela(this)" data-star="1" class="fa-solid fa-star estrela-marcada"></i>
-                        <i onclick="selecionarEstrela(this)" data-star="2" class="fa-solid fa-star estrela-marcada"></i>
-                        <i onclick="selecionarEstrela(this)" data-star="3" class="fa-solid fa-star estrela-marcada"></i>
-                        <i onclick="selecionarEstrela(this)" data-star="4" class="fa-solid fa-star estrela-marcada"></i>
-                        <i onclick="selecionarEstrela(this)" data-star="5" class="fa-solid fa-star"></i>
+                        <?php
+                            $nota = round($review['nota_bar']);
+                        ?>
+                        <?php for ($i = 1; $i <= $nota; $i++): ?>
+                            <i onclick="selecionarEstrela(this)" class="fa-solid fa-star estrela-marcada"></i>
+                        <?php endfor; ?>
+                        <?php for ($i = 1; $i <= 5 - $nota; $i++): ?>
+                            <i onclick="selecionarEstrela(this)" class="fa-solid fa-star"></i>
+                        <?php endfor; ?>
                     </div>
                 </div>
             <?php endWhile; ?>
@@ -43,6 +42,4 @@
 </section>
 
 <script>
-    const notas = <?= json_encode($notas) ?>;
-    console.log(notas)
 </script>
