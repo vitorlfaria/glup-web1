@@ -46,6 +46,7 @@
         nome_bar VARCHAR(30) NOT NULL,
         local_bar VARCHAR(50) NOT NULL,
         descricao_bar VARCHAR(200),
+        nota_bar FLOAT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME,
         deleted_at DATETIME

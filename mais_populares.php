@@ -17,23 +17,23 @@
     <?php if(mysqli_num_rows($reviews) > 0): ?>
         <div class="cards-container">
             <?php while ($review = mysqli_fetch_assoc($reviews)): ?>
-                <div class="card-popular">
-                    <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2029&q=80"
-                         alt="foto bar" class="foto">
-                    <h3 class="nome"><?= $review['nome_bar'] ?></h3>
-                    <p class="local"><?= $review['local_bar'] ?></p>
-                    <div class="estrelas">
-                        <?php
-                            $nota = round($review['nota_bar']);
-                        ?>
-                        <?php for ($i = 1; $i <= $nota; $i++): ?>
-                            <i onclick="selecionarEstrela(this)" class="fa-solid fa-star estrela-marcada"></i>
-                        <?php endfor; ?>
-                        <?php for ($i = 1; $i <= 5 - $nota; $i++): ?>
-                            <i onclick="selecionarEstrela(this)" class="fa-solid fa-star"></i>
-                        <?php endfor; ?>
+                <a href="bar.php?id=<?= $review['id_bar'] ?>">
+                    <div class="card-popular">
+                        <h3 class="nome"><?= $review['nome_bar'] ?></h3>
+                        <p class="local"><?= $review['local_bar'] ?></p>
+                        <div class="estrelas">
+                            <?php
+                                $nota = round($review['nota_bar']);
+                            ?>
+                            <?php for ($i = 1; $i <= $nota; $i++): ?>
+                                <i onclick="selecionarEstrela(this)" class="fa-solid fa-star estrela-marcada"></i>
+                            <?php endfor; ?>
+                            <?php for ($i = 1; $i <= 5 - $nota; $i++): ?>
+                                <i onclick="selecionarEstrela(this)" class="fa-solid fa-star"></i>
+                            <?php endfor; ?>
+                        </div>
                     </div>
-                </div>
+                </a>
             <?php endWhile; ?>
         </div>
     <?php else: ?>
