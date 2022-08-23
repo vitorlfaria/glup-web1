@@ -276,10 +276,10 @@ span {
 /* Página do bar ---------------- */
 .pagina-bar {
   width: 100%;
+  min-height: 55vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding-top: 5rem;
   position: relative;
 }
@@ -342,8 +342,29 @@ span {
 }
 .avaliacoes-container .titulo {
   padding-bottom: .5rem;
-  margin-bottom: .75rem;
+  margin-bottom: 1.5rem;
   border-bottom: 2px solid var(--cinza-escuro);
+}
+.nenhum-msg {
+  color: var(--cinza-escuro);
+}
+.avaliacao {
+  width: 100%;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--cinza);
+}
+.nome-nota {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.nome-user {
+  font-weight: bold;
+}
+.comentario {
+  padding-top: 1rem;
 }
 
 /* Footer --------------- */

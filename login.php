@@ -42,7 +42,7 @@
                   $_SESSION["user_login"] = $user['login'];
 
                   disconnect_db($conn);
-	              header("refresh:1; url=home.php");
+	              header("refresh:1; url=index.php");
                   exit();
               }
           }
