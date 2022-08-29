@@ -41,12 +41,25 @@
                   $_SESSION["user_nome"] = $user['nome'];
                   $_SESSION["user_login"] = $user['login'];
 
+                  // Seta o cookies com as informações de login caso o usuário marque a caixinha
+                  if (isset($_POST['lembrar']) && $_POST['lembrar'] === 'lembrar') {
+                    setcookie('login', $login, time() + (86400 * 30));
+                    setcookie('senha', base64_encode($_POST['senha']), time() + (86400 * 30));
+                  } else {
+                      setcookie('login', null, -1);
+                      setcookie('senha', null, -1);
+                  }
+
                   disconnect_db($conn);
 	              header("refresh:1; url=index.php");
                   exit();
               }
           }
       }
+  }
+  if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+      if (isset($_COOKIE['login'])) $login = $_COOKIE['login'];
+      if (isset($_COOKIE['senha'])) $senha = base64_decode($_COOKIE['senha']);
   }
 require_once "head.php";
 ?>
@@ -76,12 +89,14 @@ require_once "head.php";
 			 name="senha"
 			 placeholder="Sua senha"
 			 class="input"
+             value="<?php if(isset($senha)) echo $senha?>"
 			 required
 	  >
         <?php if (!empty($erro_senha)): ?>
             <span class="erro-form"><?= $erro_senha ?></span>
         <?php endif; ?>
 	</label>
+    <label for="lembrar"><input type="checkbox" name="lembrar" value="lembrar" checked> Lembrar login e senha</label>
 
 	  <?php if ($erro): ?>
             <span class="insucesso"><?= $erro_msg ?></span>

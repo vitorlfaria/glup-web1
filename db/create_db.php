@@ -32,7 +32,10 @@
       sobrenome VARCHAR(30) NOT NULL,
       email VARCHAR(60) NOT NULL,
       senha VARCHAR(40) NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+      foto_perfil VARCHAR(40),
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updates_at TIMESTAMP,
+      deleted_at TIMESTAMP
   )";
   if(mysqli_query($conn, $query)){
     echo "Tabela de usuários criada com sucesso.<br>";

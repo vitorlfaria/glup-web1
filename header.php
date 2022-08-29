@@ -8,6 +8,7 @@
     <?php if($login): ?>
         <div class="btn-container">
             <p class="nome-user">Olá <?= $user_name ?></p>
+            <a href="usuario_editar.php"><i class="fa-solid fa-user-gear usuario-icone"></i></a>
             <a href="novo_review.php" class="btn btn-nova-review btn-scale"><i class="fa-solid fa-star"></i> Fazer avaliação</a>
             <a href="logout.php" class="btn btn-verde">Logout</a>
         </div>

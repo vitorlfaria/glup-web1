@@ -52,16 +52,22 @@
           if(mysqli_num_rows($email_check) > 0) {
               $insucesso = "Esse email já está sendo usado";
           } else {
-            $query = "INSERT INTO usuarios (nome, sobrenome, login, email, senha)
-                VALUES ('$nome', '$sobrenome', '$login', '$email', '$senha')";
-            if(mysqli_query($conn, $query)){
-              $sucesso = "Usuário criado com sucesso!<br>Você será redirecionado para fazer login em 5 segundos.";
-              disconnect_db($conn);
-              header("refresh:5; url=login.php");
-              exit();
-            } else {
-              $insucesso = "Erro ao registrar usuário, tente novamente mais tarde.";
-            }
+              $query = "SELECT * FROM usuarios WHERE login = '$login'";
+              $login_check = mysqli_query($conn, $query);
+              if(mysqli_num_rows($login_check) > 0) {
+                  $insucesso = "Esse email já está sendo usado";
+              } else {
+                $query = "INSERT INTO usuarios (nome, sobrenome, login, email, senha)
+                    VALUES ('$nome', '$sobrenome', '$login', '$email', '$senha')";
+                if(mysqli_query($conn, $query)){
+                  $sucesso = "Usuário criado com sucesso!<br>Você será redirecionado para fazer login em 5 segundos.";
+                  disconnect_db($conn);
+                  header("refresh:5; url=login.php");
+                  exit();
+                } else {
+                  $insucesso = "Erro ao registrar usuário, tente novamente mais tarde.";
+                }
+              }
           }
         }
     }
