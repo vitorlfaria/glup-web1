@@ -4,7 +4,7 @@
     $conn = connect_db();
 
     $erro = false;
-    if($user_id) {
+    if(isset($user_id)) {
         $query = "SELECT * FROM usuarios WHERE id_usuario = '$user_id'";
         $result = mysqli_query($conn, $query);
         if(mysqli_num_rows($result) > 0) {
@@ -67,12 +67,30 @@
                 $query_senha = "senha = '$editar_senha'";
             }
         }
+        if(!empty($_FILES["foto-perfil"])){
+            $fileExploded = explode('.', $_FILES["foto-perfil"]["name"]);
+            $fileType = $fileExploded[1];
+            if($fileType != "jpeg" && $fileType != "jpg" && $fileType != "png") {
+                $erro_msg = "A imagem tem que ser jpg/png. Você enviou '".$_FILES["foto-perfil"]["type"];
+
+            } elseif($_FILES["foto-perfil"]["size"] > 1000000 ) {
+                $erro_msg = "A imagem não obedece o tamanho máximo de 1MB";
+
+            } else {
+                $uploadDir = "img/user/";
+                $uploadFile = $uploadDir . basename($_FILES["foto-perfil"]["name"]);
+                move_uploaded_file($_FILES["foto-perfil"]["tmp_name"], $uploadFile);
+                $foto_perfil = basename($_FILES["foto-perfil"]["name"]);
+                $query_foto = "foto_perfil = '$foto_perfil'";
+            }
+        }
 
         if (!empty($query_nome)
             || !empty($query_sobrenome)
             || !empty($query_login)
             || !empty($query_email)
             || !empty($query_senha)
+            || !empty($query_foto)
         ) {
             $query = "UPDATE usuarios SET ";
             $query_body = [];
@@ -81,6 +99,7 @@
             if(!empty($query_email)) $query_body[] = $query_email;
             if(!empty($query_login)) $query_body[] = $query_login;
             if(!empty($query_senha)) $query_body[] = $query_senha;
+            if(!empty($query_foto)) $query_body[] = $query_foto;
             $query_condition = " WHERE id_usuario = '$user_id'";
 
             $query_string_body = implode(', ', $query_body);
@@ -102,13 +121,19 @@
 
 <main class="pagina-editar-perfil">
     <div class="infos-atuais">
-        <img src="./img/placeholder-usuario-500x500.jpg" alt="foto de perfil" class="foto-usuario">
+        <img src="./img/<?php
+                            if (!empty($foto)) {
+                                echo "user/" . $foto;
+                            } else {
+                                echo "placeholder-500x500.jpg";
+                            }
+                        ?>" alt="foto de perfil" class="foto-usuario">
         <div class="informacoes">
             <p class="nome-user"><?= $nome . " " . $sobrenome ?></p>
             <p class="email"><?= $email ?></p>
         </div>
     </div>
-    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form form-editar-perfil">
+    <form enctype="multipart/form-data" action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form form-editar-perfil">
         <h2>Editar informações do cadastro</h2>
         <fieldset class="fieldset inline">
             <label for="foto-perfil" class="input input-file">
@@ -116,7 +141,6 @@
                 <input type="file"
                        id="foto-perfil"
                        name="foto-perfil"
-                       accept="image/*"
                        class="input"
                        hidden>
             </label>
