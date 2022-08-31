@@ -32,7 +32,7 @@
       sobrenome VARCHAR(30) NOT NULL,
       email VARCHAR(60) NOT NULL,
       senha VARCHAR(40) NOT NULL,
-      foto_perfil VARCHAR(40),
+      foto_perfil VARCHAR(1024),
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updates_at TIMESTAMP,
       deleted_at TIMESTAMP
