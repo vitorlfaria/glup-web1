@@ -23,9 +23,9 @@
 
           //Se sim, pergunta se quer atualizar a avaliação
           if(mysqli_num_rows($result) > 0) {
-              if($_POST['alterar_review'] === 'sim') {
+              if(isset($_POST['alterar_review']) && $_POST['alterar_review'] === 'sim') {
                   $alterar_review = true;
-              } elseif($_POST['alterar_review'] === 'nao') {
+              } elseif(isset($_POST['alterar_review']) && $_POST['alterar_review'] === 'nao') {
                   $alterar_review = false;
               } else {
                   $alterar_review = false;
@@ -35,7 +35,7 @@
               //Se o usuário escolher que quer atualizar, atualiza a review
               if($alterar_review) {
                   $review_antiga = mysqli_fetch_assoc($result);
-                  $review_id = $review_antiga['id'];
+                  $review_id = $review_antiga['id_bar'];
                   if (!empty($review)){
                       $query = "UPDATE avaliacoes
                                 SET nota = '$nota', avaliacao = '$review'
