@@ -30,25 +30,27 @@
 
         <div class="avaliacoes-container">
             <?php if(mysqli_num_rows($resultBares) > 0): ?>
-                <?php while($bares = mysqli_fetch_assoc($resultBares)): ?>
+                <?php while($bar = mysqli_fetch_assoc($resultBares)): ?>
                     <div class="avaliacao">
-                        <div class="nome-nota">
-                            <div>
-                                <p class="nome-user"><?= $bares['nome'] ?></p>
-                                <p><?= $bares['local'] ?></p>
+                        <a href="bar.php?id=<?= $bar['id'] ?>">
+                            <div class="nome-nota">
+                                <div>
+                                    <p class="nome-user"><?= $bar['nome'] ?></p>
+                                    <p><?= $bar['local'] ?></p>
+                                </div>
+                                <div class="estrelas">
+                                    <?php
+                                    $nota = round($bar['nota']);
+                                    ?>
+                                    <?php for ($i = 1; $i <= $nota; $i++): ?>
+                                        <i class="fa-solid fa-star estrela-marcada"></i>
+                                    <?php endfor; ?>
+                                    <?php for ($i = 1; $i <= 5 - $nota; $i++): ?>
+                                        <i class="fa-solid fa-star"></i>
+                                    <?php endfor; ?>
+                                </div>
                             </div>
-                            <div class="estrelas">
-                                <?php
-                                $nota = round($bares['nota']);
-                                ?>
-                                <?php for ($i = 1; $i <= $nota; $i++): ?>
-                                    <i class="fa-solid fa-star estrela-marcada"></i>
-                                <?php endfor; ?>
-                                <?php for ($i = 1; $i <= 5 - $nota; $i++): ?>
-                                    <i class="fa-solid fa-star"></i>
-                                <?php endfor; ?>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
