@@ -141,6 +141,28 @@ span {
   z-index: 1;
   text-shadow: 0 4px 8px #000000;
 }
+.link-todos-bares {
+  width: fit-content;
+  margin: 5rem auto 0;
+  position: relative;
+  text-shadow: 0 0 0 #0000005a;
+  transition: text-shadow 300ms ease;
+}
+.link-todos-bares:hover {
+  text-shadow: 0 .5rem .4rem #0000005a;
+}
+.link-todos-bares:before {
+  content: '';
+  width: 50rem;
+  height: 2px;
+  background-color: var(--cinza-escuro);
+  border-radius: 1rem;
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 /* Mais populares ----------------- */
 .mais-populares {
   margin-top: 2rem;
@@ -285,9 +307,12 @@ label {
   flex-direction: column;
   gap: 1rem;
 }
-.estrelas i {
+.pagina-novo-review .estrelas i {
   font-size: 1.75rem;
   cursor: pointer;
+}
+.estrelas i {
+  font-size: 1.75rem;
 }
 .estrela-marcada {
   color: #ecb901;
@@ -391,6 +416,29 @@ label {
 }
 .comentario {
   padding-top: 1rem;
+}
+
+/* Página do bar ---------------- */
+.pagina-bares {
+  width: 100%;
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5rem;
+  position: relative;
+}
+.pagina-bares .nome-nota {
+  justify-content: space-between;
+  padding: 0 3rem;
+  cursor: pointer;
+}
+.pagina-bares .nome-nota:hover .nome-user {
+  font-size: 2rem;
+}
+.pagina-bares .nome-user {
+  font-size: 1.5rem;
+  transition: font-size 300ms ease;
 }
 
 /* Página editar perfil --------------- */

@@ -147,7 +147,7 @@
                         <?= $sucesso ?>
                         <span class="btn-container">
                             <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn">Sim</a>
-                            <a href="home.php" class="btn">Não. Ir para home.</a>
+                            <a href="index.php" class="btn">Não. Ir para home.</a>
                         </span>
                     </span>
                 <?php endif; ?>

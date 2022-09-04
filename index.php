@@ -8,6 +8,9 @@
             <p>E os que não ama tanto assim.</p>
         </div>
         <?php require_once "mais_populares.php";?>
+        <a href="lista_bares.php">
+            <h1 class="link-todos-bares">VEJA <span>TODOS OS BARES</span></h1>
+        </a>
 	</main>
 <?php
   require_once "footer.php";
