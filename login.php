@@ -1,67 +1,72 @@
 <?php
-  require_once "./db/db_functions.php";
-  require_once "sanetize.php";
+  require_once "db/db_functions.php";
+    require_once "sanetize.php";
 
-  $erro = false;
-  $login = $senha = $erro_msg = "";
+    $erro = false;
+    $login = $senha = $erro_msg = "";
 
-  if($_SERVER['REQUEST_METHOD'] === 'POST') {
-	  if(empty($_POST['login'])) {
-		  $erro_login = 'O login é obrigatório.';
-	  } else {
-		  $login = sanitize($_POST['login']);
-	  }
-      if(empty($_POST['senha'])) {
-		  $erro_login = 'A senha é obrigatória.';
-	  } else {
-		  $senha = $_POST['senha'];
-	  }
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if(empty($_POST['login'])) {
+            $erro_login = 'O login é obrigatório.';
+        } else {
+            $login = sanitize($_POST['login']);
+        }
+        if(empty($_POST['senha'])) {
+            $erro_login = 'A senha é obrigatória.';
+        } else {
+            $senha = $_POST['senha'];
+        }
 
-      if(!empty($login) && !empty($senha)) {
-          $conn = connect_db();
+        if(!empty($login) && !empty($senha)) {
+            $conn = connect_db();
 
-          $login = mysqli_real_escape_string($conn, $login);
-          $senha = mysqli_real_escape_string($conn, $senha);
-          $senha = md5($senha);
+            $login = mysqli_real_escape_string($conn, $login);
+            $senha = mysqli_real_escape_string($conn, $senha);
+            $senha = md5($senha);
 
-          $query = "SELECT id_usuario, nome, login, senha FROM usuarios WHERE login = '$login'";
-          $result = mysqli_query($conn, $query);
-          if(mysqli_num_rows($result) == 0 ){
-            $erro_msg = "Usuário ou senha incorreto.";
-            $erro = true;
-          } else {
-              $user = mysqli_fetch_assoc($result);
+            $query = "SELECT u.id_usuario, u.nome, u.login, u.senha, p.permissao
+                      FROM usuarios u
+                      INNER JOIN permissoes p on u.id_usuario = p.id_usuario
+                      WHERE u.login = '$login';
+            ";
+            $result = mysqli_query($conn, $query);
+            if(mysqli_num_rows($result) == 0 ){
+                $erro_msg = "Usuário ou senha incorreto.";
+                $erro = true;
+            } else {
+                $user = mysqli_fetch_assoc($result);
 
-              if($user['senha'] !== $senha) {
-	              $erro_msg = "Usuário ou senha incorreto.";
-	              $erro = true;
-              } else {
-                  session_start();
-                  $_SESSION["user_id"] = $user['id_usuario'];
-                  $_SESSION["user_nome"] = $user['nome'];
-                  $_SESSION["user_login"] = $user['login'];
+                if($user['senha'] !== $senha) {
+                    $erro_msg = "Usuário ou senha incorreto.";
+                    $erro = true;
+                } else {
+                    session_start();
+                    $_SESSION["user_id"] = $user['id_usuario'];
+                    $_SESSION["user_nome"] = $user['nome'];
+                    $_SESSION["user_login"] = $user['login'];
+                    $_SESSION["user_permissao"] = $user['permissao'];
 
-                  // Seta o cookies com as informações de login caso o usuário marque a caixinha
-                  if (isset($_POST['lembrar']) && $_POST['lembrar'] === 'lembrar') {
-                    setcookie('login', $login, time() + (86400 * 30));
-                    setcookie('senha', base64_encode($_POST['senha']), time() + (86400 * 30));
-                  } else {
-                      setcookie('login', null, -1);
-                      setcookie('senha', null, -1);
-                  }
+                    // Seta o cookies com as informações de login caso o usuário marque a caixinha
+                    if (isset($_POST['lembrar']) && $_POST['lembrar'] === 'lembrar') {
+                        setcookie('login', $login, time() + (86400 * 30));
+                        setcookie('senha', base64_encode($_POST['senha']), time() + (86400 * 30));
+                    } else {
+                        setcookie('login', null, -1);
+                        setcookie('senha', null, -1);
+                    }
 
-                  disconnect_db($conn);
-	              header("refresh:1; url=index.php");
-                  exit();
-              }
-          }
-      }
-  }
-  if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-      if (isset($_COOKIE['login'])) $login = $_COOKIE['login'];
-      if (isset($_COOKIE['senha'])) $senha = base64_decode($_COOKIE['senha']);
-  }
-require_once "head.php";
+                    disconnect_db($conn);
+                    header("refresh:1; url=index.php");
+                    exit();
+                }
+            }
+        }
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if (isset($_COOKIE['login'])) $login = $_COOKIE['login'];
+        if (isset($_COOKIE['senha'])) $senha = base64_decode($_COOKIE['senha']);
+    }
+  require_once "head.php";
 ?>
 
 <main class="pagina-registro">
