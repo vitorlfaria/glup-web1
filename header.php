@@ -10,6 +10,9 @@
             <p class="nome-user">Olá <?= $user_name ?></p>
             <a href="usuario_editar.php"><i class="fa-solid fa-user-gear usuario-icone"></i></a>
             <a href="novo_review.php" class="btn btn-nova-review btn-scale"><i class="fa-solid fa-star"></i> Fazer avaliação</a>
+            <?php if ($user_permissao): ?>
+                <a href="novo_bar.php" class="btn btn-nova-review btn-scale"><i class="fa-solid fa-plus"></i> Cadastrar bar</a>
+            <?php endif; ?>
             <a href="logout.php" class="btn btn-verde">Logout</a>
         </div>
     <?php else: ?>
