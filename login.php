@@ -24,10 +24,9 @@
             $senha = mysqli_real_escape_string($conn, $senha);
             $senha = md5($senha);
 
-            $query = "SELECT u.id_usuario, u.nome, u.login, u.senha, p.permissao
-                      FROM usuarios u
-                      INNER JOIN permissoes p on u.id_usuario = p.id_usuario
-                      WHERE u.login = '$login';
+            $query = "SELECT id_usuario, nome, login, senha
+                      FROM usuarios 
+                      WHERE login = '$login';
             ";
             $result = mysqli_query($conn, $query);
             if(mysqli_num_rows($result) == 0 ){
@@ -44,7 +43,13 @@
                     $_SESSION["user_id"] = $user['id_usuario'];
                     $_SESSION["user_nome"] = $user['nome'];
                     $_SESSION["user_login"] = $user['login'];
-                    $_SESSION["user_permissao"] = $user['permissao'];
+                    $id = $user['id_usuario'];
+                    $query = "SELECT permissao FROM permissoes WHERE id_usuario = '$id'";
+                    $result = mysqli_query($conn, $query);
+                    if (mysqli_num_rows($result) > 0) {
+                        $permissao = mysqli_fetch_assoc($result);
+                        $_SESSION["user_permissao"] = $permissao['permissao'];
+                    }
 
                     // Seta o cookies com as informações de login caso o usuário marque a caixinha
                     if (isset($_POST['lembrar']) && $_POST['lembrar'] === 'lembrar') {
