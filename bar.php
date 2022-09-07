@@ -46,6 +46,12 @@
             </div>
 
             <div class="avaliacoes-container">
+                <?php if (!empty($descricaoBar)): ?>
+                    <h3>Sobre o bar:</h3>
+                    <div class="descricao">
+                        <p><?= $descricaoBar ?></p>
+                    </div>
+                <?php endif; ?>
                 <div class="titulo">
                     <h2>Avaliações</h2>
                 </div>

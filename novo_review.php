@@ -89,11 +89,11 @@
     require_once "header.php";
 ?>
     <?php if(!$login): ?>
-        <main class="pagina-novo-review pt-pagina">
+        <main class="pagina-novo-review">
             <h1>Para fazer um review é preciso estar logado. <a href="login.php"><i class="fa-solid fa-arrow-right-to-bracket"></i></a></h1>
         </main>
     <?php else: ?>
-        <main class="pagina-novo-review pt-pagina">
+        <main class="pagina-novo-review">
             <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form-review">
                 <label for="id_bar" class="<?php if (!empty($erro_nome_bar)) {echo 'tem-erro';} ?>">
                     Selecione um bar/pub: <span class="required">*</span>

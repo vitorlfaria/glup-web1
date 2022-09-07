@@ -1,148 +1,105 @@
 <?php
-require_once "db/db_functions.php";
 require_once "authenticate.php";
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $conn = connect_db();
-    if(!empty($_POST['review'])) {
-        $review = mysqli_real_escape_string($conn, $_POST['review']);
-    }
-    $id_bar = intval($_POST['id_bar']);
-    $nota = intval($_POST['nota']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_once "db/db_functions.php";
+        require_once "sanetize.php";
+        $conn = connect_db();
 
-    if(!isset($editar)){
-        $editar = false;
-    }
-    if(!empty($id_bar) && !empty($nota)) {
-        //Checa se o usuário já fez uma avaliação para o bar selecionado
-        $query = "SELECT * FROM avaliacoes
-                    WHERE id_usuario = '$user_id'
-                    AND id_bar = '$id_bar';"
-        ;
-        $result = mysqli_query($conn, $query);
-
-        //Se sim, pergunta se quer atualizar a avaliação
-        if(mysqli_num_rows($result) > 0) {
-            if(isset($_POST['alterar_review']) && $_POST['alterar_review'] === 'sim') {
-                $alterar_review = true;
-            } elseif(isset($_POST['alterar_review']) && $_POST['alterar_review'] === 'nao') {
-                $alterar_review = false;
-            } else {
-                $alterar_review = false;
-                $review_repetido = true;
-            }
-
-            //Se o usuário escolher que quer atualizar, atualiza a review
-            if($alterar_review) {
-                $review_antiga = mysqli_fetch_assoc($result);
-                $review_id = $review_antiga['id_bar'];
-                if (!empty($review)){
-                    $query = "UPDATE avaliacoes
-                                SET nota = '$nota', avaliacao = '$review'
-                                WHERE id_avaliacao = '$review_id'";
-                } else {
-                    $query = "UPDATE avaliacoes
-                                SET nota = '$nota'
-                                WHERE id_avaliacao = '$review_id'";
-                }
-                if(mysqli_query($conn, $query)){
-                    $sucesso = "Avaliação alterada com sucesso!<br> Deseja registrar mais uma avaliação?";
-                    disconnect_db($conn);
-                }
-            }
+        if (empty($_POST['nome'])) {
+            $erro_nome = 'Este campo é obrigatório.';
         } else {
-            //Se o usuário ainda não avaliou o bar, cria uma nova avaliação
-            if (!empty($review)){
-                $query = "INSERT INTO avaliacoes (id_usuario, id_bar, nota, avaliacao)
-                            VALUES ('$user_id', '$id_bar', '$nota', '$review')";
+            $nome_post = mysqli_real_escape_string($conn, sanitize($_POST['nome']));
+            $query = "SELECT nome_bar FROM bares WHERE nome_bar = '$nome_post'";
+            $result = mysqli_query($conn, $query);
+            if (mysqli_num_rows($result) > 0) {
+                $erro_nome = 'Já tem um bar cadastrado com esse nome.';
             } else {
-                $query = "INSERT INTO avaliacoes (id_usuario, id_bar, nota)
-                            VALUES ('$user_id', '$id_bar', '$nota')";
-            }
-            if(mysqli_query($conn, $query)){
-                $sucesso = "Avaliação registrada com sucesso!<br> Deseja registrar mais uma avaliação?";
-
-                // Atualiza a nota do bar com a média das reviews que o bar tem
-                $query = "SELECT AVG(nota) FROM avaliacoes WHERE id_bar = '$id_bar'";
-                $result = mysqli_query($conn, $query);
-                if(mysqli_num_rows($result) > 0) {
-                    $media = mysqli_fetch_assoc($result);
-                    $nota = $media['AVG(nota)'];
-
-                    $query = "UPDATE bares
-                            SET nota_bar = '$nota'
-                            WHERE id_bar = '$id_bar'"
-                    ;
-                    mysqli_query($conn, $query);
-                }
-
-                disconnect_db($conn);
+                $nome = $nome_post;
             }
         }
+        if (empty($_POST['local'])) {
+            $erro_local = 'Este campo é obrigatório.';
+        } else {
+            $local = mysqli_real_escape_string($conn, sanitize($_POST['local']));
+        }
+        if (empty($_POST['descricao'])) {
+            $erro_descricao = 'Este campo é obrigatório.';
+        } else {
+            $descricao = mysqli_real_escape_string($conn, sanitize($_POST['descricao']));
+        }
+
+        if (!empty($nome) && !empty($local) && !empty($descricao)) {
+
+            $query = "INSERT INTO bares (nome_bar, local_bar, descricao_bar, nota_bar)
+                  VALUES ('$nome', '$local', '$descricao', 0)";
+            if (mysqli_query($conn, $query)) {
+                $sucesso = 'Bar cadastrado com sucesso!';
+            } else {
+                $insucesso = 'Algo deu errado... ' . mysqli_error($conn);
+            }
+
+        }
+
+        disconnect_db($conn);
     }
-}
-$conn = connect_db();
-$query = "SELECT id_bar, nome_bar FROM bares";
-$bares = mysqli_query($conn, $query);
 
 require_once "head.php";
 require_once "header.php";
 ?>
-<?php if(!$login): ?>
-    <main class="pagina-novo-review pt-pagina">
-        <h1>Para fazer um review é preciso estar logado. <a href="login.php"><i class="fa-solid fa-arrow-right-to-bracket"></i></a></h1>
+
+<?php if(!isset($user_permissao)): ?>
+    <main class="pagina-novo-review">
+        <h1>Acesso restrito. <a href="index.php"><i class="fa-solid fa-person-walking-arrow-loop-left"></i></a></h1>
     </main>
 <?php else: ?>
-    <main class="pagina-novo-review pt-pagina">
+    <main class="pagina-novo-review">
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form-review">
-            <label for="id_bar" class="<?php if (!empty($erro_nome_bar)) {echo 'tem-erro';} ?>">
-                Selecione um bar/pub: <span class="required">*</span>
-
-                <select name="id_bar" class="input">
-                    <?php if(mysqli_num_rows($bares)): ?>
-                        <?php while ($bar = mysqli_fetch_assoc($bares)): ?>
-                            <option value="<?= $bar['id_bar'] ?>"><?= $bar['nome_bar'] ?></option>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <option>Nenhum bar cadastrado</option>
-                    <?php endif; ?>
-                </select>
-
-                <?php if (!empty($erro_nome_bar)): ?>
-                    <span class="erro-form"><?= $erro_nome_bar ?></span>
+            <h1>Cadastrar <span>novo bar</span></h1>
+            <label for="login" class="<?php if (!empty($erro_nome)) {echo 'tem-erro';} ?>">
+                Nome do Bar:
+                <input type="text"
+                       name="nome"
+                       placeholder="Já sabe"
+                       class="input"
+                       value="<?php if(isset($nome)) echo $nome?>"
+                       required
+                >
+                <?php if (!empty($erro_nome)): ?>
+                    <span class="erro-form"><?= $erro_nome ?></span>
                 <?php endif; ?>
             </label>
 
-            <div class="estrelas">
-                <p>Nota: <span class="required">*</span></p>
-                <input type="hidden" id="nota" name="nota" value="5">
-                <i onclick="selecionarEstrela(this)" data-star="1" class="fa-solid fa-star"></i>
-                <i onclick="selecionarEstrela(this)" data-star="2" class="fa-solid fa-star"></i>
-                <i onclick="selecionarEstrela(this)" data-star="3" class="fa-solid fa-star"></i>
-                <i onclick="selecionarEstrela(this)" data-star="4" class="fa-solid fa-star"></i>
-                <i onclick="selecionarEstrela(this)" data-star="5" class="fa-solid fa-star"></i>
-            </div>
-
-            <label for="review" class="<?php if (!empty($erro_local)) {echo 'tem-erro';} ?>">
-                Review:
-                <textarea
-                    name="review"
-                    placeholder="Fale mais sobre sua experiência com esse bar"
-                    class="input"
-                    rows="4"
-                    cols="50"
-                ><?php if(isset($review)) echo $review?></textarea>
+            <label for="login" class="<?php if (!empty($erro_local)) {echo 'tem-erro';} ?>">
+                Localização:
+                <input type="text"
+                       name="local"
+                       placeholder="Bairro - Cidade"
+                       class="input"
+                       value="<?php if(isset($local)) echo $local ?>"
+                       required
+                >
+                <?php if (!empty($erro_local)): ?>
+                    <span class="erro-form"><?= $erro_local ?></span>
+                <?php endif; ?>
             </label>
-            <?php if(isset($review_repetido)): ?>
-                <span class="insucesso">
-                        Você já fez um review sobre esse bar. Gostaria de alterar seu review?
-                        <span class="btn-container">
-                            <input type="hidden" id="alterar_review" name="alterar_review">
-                            <input onclick="alterarReview(this)" type="submit" value="Sim" class="btn">
-                            <input onclick="alterarReview(this)" type="submit" value="Não" class="btn">
-                        </span>
-                    </span>
-            <?php elseif (!empty($sucesso)): ?>
+
+            <label for="review" class="<?php if (!empty($erro_descricao)) {echo 'tem-erro';} ?>">
+                Descrição:
+                <textarea
+                        name="descricao"
+                        placeholder="Descreva o bar kk"
+                        class="input"
+                        rows="4"
+                        cols="50"
+                >
+                    <?php if(isset($descricao)) echo $descricao?>
+                </textarea>
+                <?php if (!empty($erro_descricao)): ?>
+                    <span class="erro-form"><?= $erro_descricao ?></span>
+                <?php endif; ?>
+            </label>
+            <?php if (!empty($sucesso)): ?>
                 <span class="sucesso">
                         <?= $sucesso ?>
                         <span class="btn-container">
@@ -150,9 +107,11 @@ require_once "header.php";
                             <a href="index.php" class="btn">Não. Ir para home.</a>
                         </span>
                     </span>
+            <?php elseif (!empty($insucesso)): ?>
+                <span class="insucesso"><?= $insucesso ?></span>
             <?php endif; ?>
 
-            <button type="submit" class="btn btn-verde btn-scale">Enviar review</button>
+            <button type="submit" class="btn btn-verde btn-scale">Cadastrar</button>
         </form>
     </main>
 <?php endif; ?>
