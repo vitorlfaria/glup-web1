@@ -10,7 +10,8 @@
               local_bar as local,
               descricao_bar as descricao,
               nota_bar as nota
-              FROM bares";
+              FROM bares
+              ORDER BY nota DESC";
     $resultBares = mysqli_query($conn, $query);
 
     require_once "head.php";
