@@ -1,0 +1,47 @@
+/* Mais populares ----------------- */
+.mais-populares {
+  margin-top: 2rem;
+}
+.mais-populares .titulo {
+  width: fit-content;
+  margin: 0 auto;
+}
+.mais-populares hr {
+  width: 15rem;
+  height: 2.5px;
+  background-color: var(--preto);
+  border-radius: 5rem;
+  border: none;
+}
+.cards-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+.card-popular {
+  width: 20rem;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 1rem #24043D3d;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+.card-popular:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2rem 1rem #24043D3d;
+}
+.card-popular .foto {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  object-fit: cover;
+}

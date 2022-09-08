@@ -1,0 +1,22 @@
+/* Página de lista de bares ---------------- */
+.pagina-bares {
+  width: 100%;
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5rem;
+  position: relative;
+}
+.pagina-bares .nome-nota {
+  justify-content: space-between;
+  padding: 0 3rem;
+  cursor: pointer;
+}
+.pagina-bares .nome-nota:hover .nome-user {
+  font-size: 2rem;
+}
+.pagina-bares .nome-user {
+  font-size: 1.5rem;
+  transition: font-size 300ms ease;
+}

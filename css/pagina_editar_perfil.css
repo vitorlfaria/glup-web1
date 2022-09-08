@@ -1,0 +1,59 @@
+/* Página editar perfil --------------- */
+.pagina-editar-perfil {
+  width: 100%;
+  min-height: 55vh;
+  padding: 3rem 8rem 0;
+  display: flex;
+  gap: 1rem;
+}
+.infos-atuais {
+  width: 15rem;
+  height: fit-content;
+  padding: 3rem 1rem;
+  background-color: #ffffff;
+  border-radius: .5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.foto-usuario {
+  width: 8rem;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 .5rem .5rem #24043D3A;
+  object-fit: cover;
+}
+.informacoes {
+  width: 100%;
+  text-align: center;
+}
+.email {
+  font-size: .85rem;
+  margin-top: .5rem;
+}
+.form-editar-perfil {
+  width: 100%;
+  max-width: 100%;
+  border-radius: .5rem;
+  background-color: #ffffff;
+}
+.form-inline {
+  flex-direction: row;
+}
+.input-file {
+  width: fit-content;
+  text-align: center;
+  height: fit-content;
+  display: inline-block;
+  cursor: pointer;
+  padding: .5rem 2rem;
+  transition: background-color 300ms ease,
+  border-color 300ms ease,
+  color 300ms ease;
+}
+.fundo-verde {
+  background-color: #63c420;
+  border-color: #29a216;
+  color: var(--branco);
+}

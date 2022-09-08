@@ -120,18 +120,21 @@
 ?>
 
 <main class="pagina-editar-perfil">
-    <div class="infos-atuais">
-        <img src="./img/<?php
-                            if (!empty($foto)) {
-                                echo "user/" . $foto;
-                            } else {
-                                echo "placeholder-500x500.jpg";
-                            }
-                        ?>" alt="foto de perfil" class="foto-usuario">
-        <div class="informacoes">
-            <p class="nome-user"><?= $nome . " " . $sobrenome ?></p>
-            <p class="email"><?= $email ?></p>
+    <div>
+        <div class="infos-atuais">
+            <img src="./img/<?php
+                                if (!empty($foto)) {
+                                    echo "user/" . $foto;
+                                } else {
+                                    echo "placeholder-500x500.jpg";
+                                }
+                            ?>" alt="foto de perfil" class="foto-usuario">
+            <div class="informacoes">
+                <p class="nome-user"><?= $nome . " " . $sobrenome ?></p>
+                <p class="email"><?= $email ?></p>
+            </div>
         </div>
+        <button class="deletar-usuario">Deletar usuário</button>
     </div>
     <form enctype="multipart/form-data" action="<?= $_SERVER['PHP_SELF'] ?>" method="post" class="form form-editar-perfil">
         <h2>Editar informações do cadastro</h2>
