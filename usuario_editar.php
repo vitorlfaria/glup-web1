@@ -120,7 +120,7 @@
 ?>
 
 <main class="pagina-editar-perfil">
-    <div>
+    <div class="sidebar">
         <div class="infos-atuais">
             <img src="./img/<?php
                                 if (!empty($foto)) {
@@ -225,14 +225,32 @@
         <?php endif; ?>
         <button type="submit" class="btn btn-verde btn-scale">SALVAR</button>
     </form>
+    <div class="modal-deletar">
+        <p class="confirmacao">Tem certeza que deseja apagar sua conta?</p>
+        <p class="aviso">Essa ação não poderá ser desfeita.</p>
+        <div class="btn-container">
+            <form action="deletar_usuario.php" method="POST">
+                <input type="submit" name="deletar" value="Deletar" class="btn btn-verde">
+            </form>
+            <button class="deletar-usuario">Cancelar</button>
+        </div>
+    </div>
 </main>
 
 <script>
     const fotoInput = document.querySelector('#foto-perfil')
-
     fotoInput.addEventListener('change', () => {
         const labelFotoInput = document.querySelector('.input-file')
         labelFotoInput.classList.add("fundo-verde")
+    })
+
+    // Método para mostrar modal ao clicar no botão de deletar usuário
+    const btnDeletarPerfil = document.querySelectorAll('.deletar-usuario')
+    btnDeletarPerfil.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modalConfirmacao = document.querySelector('.modal-deletar')
+            modalConfirmacao.classList.toggle('show-modal')
+        })
     })
 </script>
 

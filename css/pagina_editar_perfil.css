@@ -57,3 +57,49 @@
   border-color: #29a216;
   color: var(--branco);
 }
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+.deletar-usuario {
+  width: 100%;
+  color: var(--branco);
+  font-weight: 700;
+  background-color: var(--erro);
+  border: none;
+  border-radius: 5rem;
+  padding: .75rem;
+  cursor: pointer;
+}
+.modal-deletar {
+  background-color: #FFFFFF;
+  padding: 2em;
+  box-shadow: 0 0 0 200rem #0000005a;
+  border-radius: .75em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+.show-modal {
+  opacity: 1;
+  pointer-events: auto;
+}
+.confirmacao {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.aviso {
+  color: var(--erro);
+}
+.modal-deletar .btn-container {
+  margin-top: 2em;
+}
+.modal-deletar .deletar-usuario {
+  width: fit-content;
+}
