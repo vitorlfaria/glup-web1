@@ -34,8 +34,8 @@
       senha VARCHAR(40) NOT NULL,
       foto_perfil VARCHAR(1024),
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updates_at TIMESTAMP,
-      deleted_at TIMESTAMP
+      updated_at DATETIME,
+      deleted_at DATETIME
   )";
   if(mysqli_query($conn, $query)){
     echo "Tabela de usuários criada com sucesso.<br>";
