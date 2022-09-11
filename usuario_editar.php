@@ -114,7 +114,7 @@
         }
     }
 
-    $query = "SELECT nota, avaliacao, nome_bar
+    $query = "SELECT id_avaliacao, nota, avaliacao, nome_bar
               FROM avaliacoes a
               INNER JOIN bares b on a.id_bar = b.id_bar
               WHERE a.id_usuario = '$user_id'
@@ -255,10 +255,6 @@
                                     <i class="fa-solid fa-star"></i>
                                 <?php endfor; ?>
                             </div>
-                            <div class="container-editar" onclick="abrirFormEditarReview(this)">
-                                <span>Editar</span>
-                                <i class="fa-solid fa-pen-to-square editar-review"></i>
-                            </div>
                         </div>
                         <?php if($avaliacao['avaliacao']): ?>
                             <p class="comentario"><?= $avaliacao['avaliacao'] ?></p>
@@ -298,11 +294,6 @@
             modalConfirmacao.classList.toggle('show-modal')
         })
     })
-
-    // Função para mostrar form para editar review
-    function abrirFormEditarReview(nomeBar) {
-
-    }
 </script>
 
 <?php require_once "footer.php"; ?>

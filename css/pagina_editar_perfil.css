@@ -117,22 +117,3 @@
 .nome-nota {
   position: relative;
 }
-.container-editar {
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: var(--cinza-escuro);
-  position: absolute;
-  right: 0;
-}
-.container-editar span {
-  opacity: 0;
-  transition: opacity 300ms;
-}
-.editar-review {
-  transition: color 300ms;
-}
-.container-editar:hover .editar-review,
-.container-editar:hover span {
-  opacity: 1;
-  color: var(--roxo);
-}

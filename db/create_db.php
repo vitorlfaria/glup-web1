@@ -97,7 +97,7 @@
 
   //Cria a tabela de avaliações
   $query = "CREATE TABLE permissoes(
-           id_avaliacao INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+           id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
            id_usuario INT(6) UNSIGNED,
            permissao VARCHAR(30) NOT NULL,
            FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
@@ -107,15 +107,5 @@
   } else {
     echo "Erro ao criar tabela de permissões: " . mysqli_error($conn) . "<br>";
   }
-
-    //Insere permissão de admin na tabela de permissões
-    $query = "INSERT INTO permissoes (permissao)
-              VALUE ('ADMIN')
-        ";
-    if(mysqli_query($conn, $query)){
-        echo "Permissão de admin cadastrada com sucesso.<br>";
-    } else {
-        echo "Erro ao cadastrar permissão de admin: " . mysqli_error($conn) . "<br>";
-    }
 
   mysqli_close($conn);
