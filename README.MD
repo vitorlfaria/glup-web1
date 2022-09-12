@@ -16,15 +16,11 @@ GLUP é um sistema de avaliação de bares e pubs em forma de fórum.
 - Logout
 - Autenticação de sessão
 - Realizar avaliação ou editar caso já exista
-
-## Funcionalidades a serem implementadas
 - Editar avaliação
-- Deletar avaliação
-- #### Fórum para discussão, perguntas e pedidos de avaliação
+- Deletar usuário
 
 ## Funcionalidades extras
 - Home com ranking de melhores avaliados
-- Comentários em avaliações
 
 ## Criadores
 #### Vitor Lacerda
