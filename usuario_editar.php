@@ -67,7 +67,7 @@
                 $query_senha = "senha = '$editar_senha'";
             }
         }
-        if(!empty($_FILES["foto-perfil"])){
+        if(!empty($_FILES["foto-perfil"]) && $_FILES['foto-perfil']['error'] === 0){
             $fileExploded = explode('.', $_FILES["foto-perfil"]["name"]);
             $fileType = $fileExploded[1];
             if($fileType != "jpeg" && $fileType != "jpg" && $fileType != "png") {

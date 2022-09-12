@@ -55,7 +55,7 @@
               $query = "SELECT * FROM usuarios WHERE login = '$login'";
               $login_check = mysqli_query($conn, $query);
               if(mysqli_num_rows($login_check) > 0) {
-                  $insucesso = "Esse email já está sendo usado";
+                  $insucesso = "Esse usuário já está sendo usado";
               } else {
                 $query = "INSERT INTO usuarios (nome, sobrenome, login, email, senha)
                     VALUES ('$nome', '$sobrenome', '$login', '$email', '$senha')";

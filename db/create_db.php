@@ -86,8 +86,8 @@
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME,
         deleted_at DATETIME,
-        FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
-        FOREIGN KEY (id_bar) REFERENCES bares(id_bar)
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+        FOREIGN KEY (id_bar) REFERENCES bares(id_bar) ON DELETE CASCADE
     );";
   if(mysqli_query($conn, $query)){
     echo "Tabela de avaliações criada com sucesso.<br>";
@@ -100,7 +100,7 @@
            id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
            id_usuario INT(6) UNSIGNED,
            permissao VARCHAR(30) NOT NULL,
-           FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+           FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
   );";
   if(mysqli_query($conn, $query)){
     echo "Tabela de permissões criada com sucesso.<br>";
