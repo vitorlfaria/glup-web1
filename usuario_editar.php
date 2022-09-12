@@ -182,7 +182,7 @@
                     Usuário:
                     <input type="text"
                            name="login"
-                           placeholder="Insira seu email"
+                           placeholder="Novo nome de usuário"
                            value="<?php if(!empty($editar_login)) echo $editar_login ?>"
                            class="input"
                     >

@@ -116,7 +116,7 @@
           Usuário:
           <input type="text"
                  name="login"
-                 placeholder="Insira seu email"
+                 placeholder="Nome de usuário"
                  class="input"
                  value="<?php if(isset($login)) echo $login?>"
                  required
