@@ -22,7 +22,5 @@ GLUP é um sistema de avaliação de bares e pubs em forma de fórum.
 ## Funcionalidades extras
 - Home com ranking de melhores avaliados
 
-## Criadores
-#### Vitor Lacerda
-#### Henrique Valdolski
-#### Leandro Minchuel
+## Criador
+#### Vitor Lacerda Faria
